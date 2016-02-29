@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Request version="2">
+	<Authentication>
+		<client>%gateway.client%</client>
+		<password>%gateway.password%</password>
+	</Authentication>
+	<Transaction>
+		<TxnDetails>
+			<merchantreference>%order.reference%</merchantreference>
+		</TxnDetails>
+		<HpsTxn>
+			<page_set_id>1</page_set_id>
+			<method>setup_full</method>
+		</HpsTxn>
+		<APMTxns>
+			<APMTxn>
+				<method>purchase</method>
+				<payment_method>%bank_type%</payment_method>
+				<AlternativePayment version="2">
+					<TransactionDetails>
+						<Description>%order.description%</Description>
+						<SuccessURL>%gateway.successurl%</SuccessURL>
+						<FailureURL>%gateway.errorurl%</FailureURL>
+						<Language>%merchant.lang%</Language>
+						<PersonalDetails>
+							<Email>%customer.email%</Email>
+						</PersonalDetails>
+						<BillingDetails>
+							<AmountDetails>
+								<Amount>%order.total%</Amount>
+								<Exponent>2</Exponent>
+								<CurrencyCode>%merchant.currency%</CurrencyCode>
+							</AmountDetails>
+						</BillingDetails>
+					</TransactionDetails>
+					<MethodDetails>
+						<ServiceType>%merchant.region%</ServiceType>
+					</MethodDetails>
+				</AlternativePayment>
+			</APMTxn>
+		</APMTxns>
+	</Transaction>
+</Request>

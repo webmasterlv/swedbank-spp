@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Request version="2">
+	<Authentication>
+		<password>%gateway.password%</password>
+		<client>%gateway.client%</client>
+	</Authentication>
+	<Transaction>
+		<PayPalTxn>
+			<method>get_express_checkout_details</method>
+			<reference>%reference_id%</reference>	
+		</PayPalTxn>
+		<TxnDetails>
+			<merchantreference>%order.reference%</merchantreference>
+		</TxnDetails>
+	</Transaction>
+</Request>

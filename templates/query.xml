@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Request> 
+	<Authentication> 
+		<password>%gateway.password%</password>
+		<client>%gateway.client%</client>
+	</Authentication> 
+	<Transaction> 
+		<HistoricTxn> 
+			<method>query</method> 
+			<reference>%reference_id%</reference> 
+		</HistoricTxn> 
+	</Transaction> 
+</Request>

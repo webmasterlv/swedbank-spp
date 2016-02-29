@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Request version="2">
+	<Authentication>
+		<password>%gateway.password%</password>
+		<client>%gateway.client%</client>
+	</Authentication>
+	<Transaction>
+		<PayPalTxn>
+			<ShippingAddress>
+				<city>%customer.city%</city>
+				<country_code>%customer.country%</country_code>
+				<name>%customer.first_name% %customer.last_name%</name>
+				<postcode>%customer.zip_code%</postcode>
+				<region></region>
+				<street_address1>%customer.address%</street_address1>
+			</ShippingAddress>
+			<cancel_url>%gateway.errorurl%</cancel_url>
+			<custom></custom>
+			<description>%order.description%</description>
+			<email>%customer.email%</email>
+			<invnum>%order.id%</invnum>
+			<localecode></localecode>
+			<method>set_express_checkout</method>
+			<no_shipping>0</no_shipping>
+			<override_address>0</override_address>
+			<req_confirmed_shipping>0</req_confirmed_shipping>
+			<return_url>%gateway.successurl%</return_url>
+		</PayPalTxn>
+		<TxnDetails>
+			<amount currency="EUR">%order.total_base%</amount>
+			<merchantreference>%order.reference%</merchantreference>
+		</TxnDetails>
+	</Transaction>
+</Request>

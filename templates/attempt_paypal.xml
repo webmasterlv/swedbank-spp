@@ -1,0 +1,26 @@
+<Request version="2">
+	<Authentication>
+		<password>%gateway.password%</password>
+		<client>%gateway.client%</client>
+	</Authentication>
+	<Transaction>
+		<PayPalTxn>
+			<ShippingAddress>
+				<city>%customer.city%</city>
+				<country_code>%customer.country%</country_code>
+				<name>%customer.first_name% %customer.last_name%</name>
+				<postcode>%customer.zip_code%</postcode>
+				<region></region>
+				<street_address1>%customer.address%</street_address1>
+				<street_address2></street_address2>
+			</ShippingAddress>
+			<method>do_express_checkout_payment</method>
+			<reference>%reference_id_master%</reference>
+		</PayPalTxn>
+		<TxnDetails>
+			<amount currency="EUR">%order.total_base%</amount>
+			<merchantreference>%reference_id%</merchantreference>
+		</TxnDetails>
+	</Transaction>
+</Request>
+
