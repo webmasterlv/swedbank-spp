@@ -162,7 +162,7 @@ If there was an error creating transaction, `$result` object contains some metho
 
 ##### 4.2. Request transaction status
 
-After payment, customer returns to your store URL, specified above in `Merchant` object, along with some additional data in URL. You do not need to use them directly, gateway instead will check transaction status for you. If you are checking payment status in you return URL, call this command:
+After payment, customer returns to your store URL, specified above in `Accreditation` object, along with some additional data in URL. You do not need to use them directly, gateway instead will check transaction status for you. If you are checking payment status in you return URL, call this command:
 ```php
 $isExtended = false;
 
