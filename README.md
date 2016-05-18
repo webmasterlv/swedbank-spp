@@ -219,6 +219,24 @@ if ($result -> isSuccess()) {
 ```
 If you pass empty string as password, payment system will generate random password for you. Please be sure to save new password.
 
+##### 4.5. Payment notifications
+
+SPP provides and event notification mechanism outside of the standard transaction messaging flow between the merchant and Payment Gateway. This allows you to receive information about transaction status as soon as it is available. SPP pushes `POST` request to merchant's provided URL.
+To validate a transaction, you can use this code:
+```php
+$respond = true;
+$result = $gateway -> validatePayment($respond);
+if ($result->isSuccess()) {
+    $order = $result -> getOrder();
+    $orderId = $order -> getId(); // Your Order ID
+}
+
+```
+`$respond` indicates whether automatically respond with success message. It sends XML headers and data, so it you need to respond manually, set this to false and send XML response as:
+```xml
+<Response>OK</Response>
+```
+
 #### 5. Responses
 
 Each operation returns `Response` object that provides common methods to check for status.

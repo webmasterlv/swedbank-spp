@@ -10,11 +10,11 @@ use Swedbank\SPP\Response\InternalError;
 use Swedbank\SPP\Operation\Query;
 use Swedbank\SPP\Operation\Setup;
 use Swedbank\SPP\Operation\SetPassword;
+use Swedbank\SPP\Response\NotifyResponse;
 use Swedbank\SPP\Order;
 use Swedbank\SPP\Operation\Attempt;
 use Swedbank\SPP\Payment\Method;
 use Swedbank\SPP\Transport\Agent;
-
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LogLevel;
@@ -128,7 +128,6 @@ class Gateway implements DataSource, LoggerAwareInterface
 	{
 		return $this -> mode == self::ENV_DEV;
 	}
-	
 
 	/**
 	 * Returns API endpoints
@@ -400,6 +399,33 @@ class Gateway implements DataSource, LoggerAwareInterface
 
 		$ext = new Query(Query::TYPE_EXTENDED, $extRef, $method, $order);
 		return $this -> processOperation($ext);
+	}
+
+	/**
+	 * Validates transaction
+	 *
+	 * @param boolean $respond Respond with XML data
+	 * @return NotifyResponse
+	 */
+	public function validatePayment($respond = true)
+	{
+		$raw = file_get_contents("php://input");
+
+		if (!$raw) {
+			return new NotifyResponse([], 'POST data is empty');
+		}
+
+		$template	 = new Template('');
+		$data		 = $template -> decode($raw);
+
+		$result = new NotifyResponse($data);
+
+		if ($result -> isDataOk() && $respond) {
+			header("Content-type: text/xml;encoding=utf8");
+			echo '<Response>OK</Response>';
+		}
+
+		return $result;
 	}
 
 	/**

@@ -100,6 +100,6 @@ class Template
 	 */
 	public function decode($str)
 	{
-		return json_decode(json_encode(simplexml_load_string($str)), true);
+		return json_decode(json_encode(simplexml_load_string($str, null, LIBXML_NOCDATA)), true);
 	}
 }
