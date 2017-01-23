@@ -237,6 +237,15 @@ if ($result->isSuccess()) {
 <Response>OK</Response>
 ```
 
+##### 4.6. Misc helpers
+__Get payment class instance from code__ 
+```php
+use Swedbank\SPP\Payment\Helper;
+
+$method = Helper::getMethodByCode('IB', 'SW');
+// $method is instance of InternetBank class
+```
+
 #### 5. Responses
 
 Each operation returns `Response` object that provides common methods to check for status.
