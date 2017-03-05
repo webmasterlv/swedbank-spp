@@ -15,8 +15,9 @@ class NotifyResponse extends GenericResponse
 		parent::__construct($data);
 
 		if ($this -> isDataOk()) {
-			$orderId		 = $data['Event']['Purchase']['PaymentMethod']['ReferenceId'];
-			$this -> order	 = new Order($orderId, '', $this -> getAmount() / 100);
+			$orderId		 = $data['Event']['Purchase']['@attributes']['TransactionId'];
+			list ($cId, ) = explode('/', $orderId);
+			$this -> order	 = new Order(ltrim($cId, '0'), '', $this -> getAmount() / 100);
 		}
 
 		$this -> message = $message;
