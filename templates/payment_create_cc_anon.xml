@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Request version="2">
+	<Authentication>
+		<client>%gateway.client%</client>
+		<password>%gateway.password%</password>
+	</Authentication>
+	<Transaction>
+		<TxnDetails>
+			<merchantreference>%order.reference%</merchantreference>
+			<amount currency="EUR">%order.total_base%</amount>
+			<capturemethod>ecomm</capturemethod>
+			<ThreeDSecure>
+				<purchase_datetime>%gateway.date%</purchase_datetime>
+				<verify>yes</verify>
+				<merchant_url>%gateway.storeurl%</merchant_url>
+				<purchase_desc>%order.description%</purchase_desc>
+			</ThreeDSecure>
+		</TxnDetails>
+		<HpsTxn>
+			<method>setup_full</method>
+			<page_set_id>2211</page_set_id>
+			<return_url>%gateway.successurl%</return_url>
+			<expiry_url>%gateway.errorurl%</expiry_url>
+			<error_url>%gateway.errorurl%</error_url>
+			<DynamicData>
+				<dyn_data_3>show</dyn_data_3>
+				<dyn_data_4>%gateway.storeurl%</dyn_data_4>
+			</DynamicData>
+		</HpsTxn>
+		<CardTxn>
+			<method>auth</method>
+		</CardTxn>
+	</Transaction>
+</Request>

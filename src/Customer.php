@@ -32,6 +32,8 @@ class Customer implements DataSource
 		'country' => '',
 	];
 
+	protected $isAnonymous = false;
+
 	/**
 	 * Mandatory fields
 	 *
@@ -61,6 +63,24 @@ class Customer implements DataSource
 			'first_name' => $first_name,
 			'last_name' => $last_name,
 		]);
+	}
+
+	/**
+	 * Sets anonymous payment state
+	 *
+	 * @param bool $state
+	 */
+	public function setAnonymous($state) {
+		$this -> isAnonymous = (bool) $state;
+	}
+
+	/**
+	 * Returns anonymous payment state
+	 * 
+	 * @return type
+	 */
+	public function isAnonymous() {
+		return $this -> isAnonymous;
 	}
 
 	/**

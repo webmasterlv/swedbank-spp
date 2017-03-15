@@ -113,7 +113,13 @@ $customer = Customer::fromArray([
 	'country' => 'LV'
 ]);
 ```
-Only email is mandatory. Provide as much data as you are willing to. The data gets passed to payment system.
+Only email, first_name and last_name is mandatory (if you didnt have enabled anonymous payments in your agreement with Swedbank). Provide as much data as you are willing to. The data gets passed to payment system.
+
+If you have anonymous payments using credit cards, you **should** set information about that to Customer object:
+```php
+$customer -> setAnonymous(true)
+```
+
 
 Select your payment method:
 ```php
@@ -232,7 +238,7 @@ if ($result->isSuccess()) {
 }
 
 ```
-`$respond` indicates whether automatically respond with success message. It sends XML headers and data, so it you need to respond manually, set this to false and send XML response as:
+`$respond` indicates whether automatically respond with success message. It sends XML headers and data, so if you need to respond manually, set this to false and send XML response as:
 ```xml
 <Response>OK</Response>
 ```
@@ -262,7 +268,7 @@ Each operation returns `Response` object that provides common methods to check f
 
 `getStatus()` - status code of operation. See 5.2 for available values.
 
-`getSource()` - source of response (error). Possible values are - `network` (error happened in within you host), `banklink` (error in payment service)
+`getSource()` - source of response (error). Possible values are - `network` (error happened in within your host), `banklink` (error in payment service)
 
 `getRemoteStatus()` - internal result code of operation. Please consult Swedbank documentation on these codes.
 

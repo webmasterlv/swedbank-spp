@@ -99,7 +99,7 @@ class Setup implements Operation
 	public function getTemplate()
 	{
 		if ($this -> payment instanceof CreditCard) {
-			return 'payment_create_cc';
+			return $this -> customer -> isAnonymous() ? 'payment_create_cc_anon' : 'payment_create_cc';
 		}
 
 		if ($this -> payment instanceof InternetBank) {
