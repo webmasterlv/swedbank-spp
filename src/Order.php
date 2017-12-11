@@ -75,7 +75,7 @@ class Order implements DataSource
 	{
 		$this -> id			 = $id;
 		$this -> description = $description;
-		$this -> amount		 = (int) ($amount * 100);
+		$this -> amount		 = round($amount * 100);
 
 		if ($this -> amount < 0) {
 			throw new \InvalidArgumentException('Invalid order or delivery amount');
