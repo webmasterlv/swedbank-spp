@@ -1,0 +1,35 @@
+<Request version="2">
+	<Authentication>
+		<client>%gateway.client%</client>
+		<password>%gateway.password%</password>
+	</Authentication>
+		<Transaction>
+			<ContAuthTxn>
+				<method>auth</method>
+				<FirstPayment>
+					<date>2015-12-22</date>
+					<amount currency="EUR">10.65</amount>
+				</FirstPayment>
+				<period>weekly</period>
+				<start_date>2015-12-23</start_date>
+				<amount currency="EUR">10.00</amount>
+			</ContAuthTxn>
+		<TxnDetails>
+			<merchantreference>%order.reference%</merchantreference>
+			<ThreeDSecure>
+				<purchase_datetime>20151222 09:00:00</purchase_datetime>
+				<verify>yes</verify>
+				<Browser>
+					<device_category>0</device_category>
+				</Browser>
+				<merchant_url>http://www.kennyscott.com</merchant_url>
+				<purchase_desc>Item Description</purchase_desc>
+			</ThreeDSecure>
+			<amount currency="EUR">10.00</amount>
+			<capturemethod>ecomm</capturemethod>
+		</TxnDetails>
+		<CardTxn>
+			<card_details type="from_hps">4700910000000040</card_details> 
+		</CardTxn>
+	</Transaction>
+</Request>

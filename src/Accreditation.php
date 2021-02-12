@@ -31,9 +31,9 @@ class Accreditation
 	 * @param string $vTID vTID
 	 * @param string $password Password
 	 */
-	public function setDev($vTID, $password, $responseUrl)
+	public function setDev($vTID, $password, $responseUrl, $storeUrl = null)
 	{
-		$this -> setCredentials(Gateway::ENV_DEV, $vTID, $password, $responseUrl);
+		$this -> setCredentials(Gateway::ENV_DEV, $vTID, $password, $responseUrl, $storeUrl);
 	}
 
 	/**
@@ -42,9 +42,9 @@ class Accreditation
 	 * @param string $vTID vTID
 	 * @param string $password Password
 	 */
-	public function setProd($vTID, $password, $responseUrl)
+	public function setProd($vTID, $password, $responseUrl, $storeUrl = null)
 	{
-		$this -> setCredentials(Gateway::ENV_PROD, $vTID, $password, $responseUrl);
+		$this -> setCredentials(Gateway::ENV_PROD, $vTID, $password, $responseUrl, $storeUrl);
 	}
 
 	/**
@@ -55,7 +55,7 @@ class Accreditation
 	 * @param string $password
 	 * @throws AccreditationException
 	 */
-	private function setCredentials($mode, $vTID, $password, $responseUrl)
+	private function setCredentials($mode, $vTID, $password, $responseUrl, $storeUrl = null)
 	{
 		$uri = parse_url($responseUrl);
 		$uri += [
@@ -74,7 +74,8 @@ class Accreditation
 		$this -> credentials[$mode] = [
 			'client' => $vTID,
 			'password' => $password,
-			'responseUrl' => $responseUrl
+			'responseUrl' => $responseUrl,
+			'storeUrl' => $storeUrl ?: $responseUrl
 		];
 	}
 

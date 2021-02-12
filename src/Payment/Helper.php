@@ -33,4 +33,4 @@ class Helper
 
 		return false;
 	}
-} 
+}

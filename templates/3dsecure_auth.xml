@@ -1,0 +1,12 @@
+<Request version="2">
+	<Authentication>
+		<client>%gateway.client%</client>
+		<password>%gateway.password%</password>
+	</Authentication>
+	<Transaction>
+		<HistoricTxn>
+			<reference>%reference%</reference>
+			<method>threedsecure_authorization_request</method>
+		</HistoricTxn>
+	</Transaction>
+</Request>

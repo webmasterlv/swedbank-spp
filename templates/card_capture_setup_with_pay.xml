@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Request version="2">
+	<Authentication>
+		<client>%gateway.client%</client>
+		<password>%gateway.password%</password>
+	</Authentication>
+	<Transaction>
+		<TxnDetails>
+			<merchantreference>%order.reference%</merchantreference>
+			<amount currency="EUR">%order.total_base%</amount>
+		</TxnDetails>
+		<HpsTxn>
+			<method>setup</method>
+			<page_set_id>164</page_set_id>
+			<return_url>%gateway.successurl%</return_url>
+			<expiry_url>%gateway.errorurl%</expiry_url>
+			<error_url>%gateway.errorurl%</error_url>
+			<DynamicData>
+				<dyn_data_4>%gateway.storeurl%</dyn_data_4>
+				<dyn_data_9>show</dyn_data_9>
+			</DynamicData>
+		</HpsTxn>
+	</Transaction>
+</Request>

@@ -5,9 +5,10 @@
 		<password>%gateway.password%</password>
 	</Authentication>
 	<Transaction>
+		<ContAuthTxn type="setup"/>
 		<TxnDetails>
 			<merchantreference>%order.reference%</merchantreference>
-			<amount currency="EUR">%order.total_base%</amount>
+			<amount	currency="EUR">0</amount>
 			<capturemethod>ecomm</capturemethod>
 			<ThreeDSecure>
 				<purchase_datetime>%gateway.date%</purchase_datetime>
@@ -58,19 +59,9 @@
 				</Action>
 			</Risk>
 		</TxnDetails>
-		<HpsTxn>
-			<method>setup_full</method>
-			<page_set_id>2211</page_set_id>
-			<return_url>%gateway.successurl%</return_url>
-			<expiry_url>%gateway.errorurl%</expiry_url>
-			<error_url>%gateway.errorurl%</error_url>
-			<DynamicData>
-				<dyn_data_3>show</dyn_data_3>
-				<dyn_data_4>%gateway.storeurl%</dyn_data_4>
-			</DynamicData>
-		</HpsTxn>
 		<CardTxn>
-			<method>auth</method>
+			<method>verify</method>
+			<card_details type="from_hps">%card.reference%</card_details>
 		</CardTxn>
 	</Transaction>
 </Request>

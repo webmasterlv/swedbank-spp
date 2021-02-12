@@ -18,6 +18,9 @@ use Swedbank\SPP\Transport\Agent;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\LogLevel;
+use Swedbank\SPP\Operation\Auth3DSecure;
+use Swedbank\SPP\Operation\CaptureCardSetup;
+use Swedbank\SPP\Operation\RecurringSetup;
 
 /**
  * Payment gateway interface
@@ -186,10 +189,12 @@ class Gateway implements DataSource, LoggerAwareInterface
 		$errorUrl['params']['_banklinkStatus']	 = 'fail';
 		$errorUrl['params'] += $add_data;
 
+		$storeUrl = $this -> parseUrl($key['storeUrl']);
+
 		return [
 			'success' => $successUrl['path'].'?'.http_build_query($successUrl['params']),
 			'error' => $errorUrl['path'].'?'.http_build_query($errorUrl['params']),
-			'store' => $successUrl['absolute'].'/'
+			'store' => $storeUrl['path']
 		];
 	}
 
@@ -288,6 +293,27 @@ class Gateway implements DataSource, LoggerAwareInterface
 		return $return;
 	}
 
+	public function recurringSetup(Order $order, Customer $customer, $reference = null)
+	{
+		$reference = $reference ? : filter_input(INPUT_GET, 'dts_reference');
+
+		$operation = new RecurringSetup($order, $customer, $reference);
+
+		$result = $this -> processOperation($operation);
+		$rec_reference = $result -> getRecurringReference();
+
+		$action = $result -> getNextAction();
+
+		if ($action['action'] == '3ds_verify') {
+			$auth_operation = new Auth3DSecure($result -> getReference());
+			$result = $this -> processOperation($auth_operation);
+		}
+
+		return [
+			'recurring_reference' => $rec_reference,
+			'result' => $result
+		];
+	}
 	/**
 	 * Creates new payment transaction.
 	 * 
@@ -426,6 +452,18 @@ class Gateway implements DataSource, LoggerAwareInterface
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Card capture request (Stage 1)
+	 *
+	 * @param Order $order Customer order
+	 *
+	 * @return Response
+	 */
+	public function requestCardCapture(Order $order)
+	{
+		return $this -> processOperation(new CaptureCardSetup($order));
 	}
 
 	/**

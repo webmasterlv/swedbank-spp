@@ -16,3 +16,6 @@
 
 ### 1.1.3 (15.03.2017)
 - Added option for anonymous credit card payments
+
+### 1.1.4 (15.05.2020)
+- Added card capture and recurring payment operations

@@ -243,7 +243,16 @@ if ($result->isSuccess()) {
 <Response>OK</Response>
 ```
 
-##### 4.6. Misc helpers
+##### 4.7. Card capture
+
+Card capture is a process which saves customer credit card reference number and allows payments to be charged later. It is essential to integrate recurring payments on a schedule or simplify payment workflow in which case customer does not need to enter credit card information repeatedly.
+
+##### 4.8. Recurring payments
+
+Recurring payments are charges from customer card on a fixed schedule. When used effectively Recurring Payments can minimize workload for the merchant, decreasing late payments as well as improve customer relationships.
+
+##### 4.9. Misc helpers
+
 __Get payment class instance from code__ 
 ```php
 use Swedbank\SPP\Payment\Helper;
@@ -275,15 +284,15 @@ Each operation returns `Response` object that provides common methods to check f
 ##### 5.2. Response constants
 
     Gateway::STATUS_SUCCESS	    - operation was successful;
-	Gateway::STATUS_PENDING	    - payment status is not available;
-	Gateway::STATUS_ERROR       - operation failed;
-	Gateway::STATUS_CANCELED	- payment was canceled;
-	Gateway::STATUS_INVESTIGATE - requires investigation;
-	Gateway::STATUS_REFUSED     - payment was refused;
-	Gateway::STATUS_REFUNDED    - payment is refunded;
-	Gateway::STATUS_TIMEOUT     - timeout while communicating with payment service;
-	Gateway::STATUS_STARTED     - payment just started;
-	Gateway::STATUS_UNKNOWN     - unknown error.
+    Gateway::STATUS_PENDING	    - payment status is not available;
+    Gateway::STATUS_ERROR       - operation failed;
+    Gateway::STATUS_CANCELED	- payment was canceled;
+    Gateway::STATUS_INVESTIGATE - requires investigation;
+    Gateway::STATUS_REFUSED     - payment was refused;
+    Gateway::STATUS_REFUNDED    - payment is refunded;
+    Gateway::STATUS_TIMEOUT     - timeout while communicating with payment service;
+    Gateway::STATUS_STARTED     - payment just started;
+    Gateway::STATUS_UNKNOWN     - unknown error.
 
 
 #### Support

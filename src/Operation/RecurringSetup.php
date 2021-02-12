@@ -7,13 +7,12 @@ use Swedbank\SPP\Order;
 use Swedbank\SPP\Customer;
 use Swedbank\SPP\Payment\Method;
 use Swedbank\SPP\Payment\CreditCard;
-use Swedbank\SPP\Payment\InternetBank;
-use Swedbank\SPP\Payment\PayPal;
 use Swedbank\SPP\Response\SetupResponse;
 use Swedbank\SPP\Gateway;
+use Swedbank\SPP\Response\RecurringSetupResponse;
 
 /**
- * Requests new transaction
+ * Stores customer credit card information in bank for recurring or instant payments
  *
  * This file is part of the Swedbank/SPP package.
  *
@@ -23,28 +22,28 @@ use Swedbank\SPP\Gateway;
  * file that was distributed with this source code.
  *
  */
-class Setup implements Operation
+class RecurringSetup implements Operation
 {
 	/**
 	 * Customer order
 	 *
 	 * @var Order
 	 */
-	protected $order;
+	private $order;
 
 	/**
-	 * Customer object
+	 * Customer
 	 *
 	 * @var Customer
 	 */
-	protected $customer;
+	private $customer;
 
 	/**
-	 * Payment method
+	 * Setup reference
 	 *
-	 * @var Method
+	 * @var string
 	 */
-	protected $payment;
+	private $reference;
 
 	/**
 	 * Request new transaction
@@ -53,11 +52,12 @@ class Setup implements Operation
 	 * @param Customer $customer Customer
 	 * @param Method $method Payment method
 	 */
-	public function __construct(Order $order, Customer $customer, Method $method)
+	public function __construct(Order $order, Customer $customer, $reference)
 	{
 		$this -> order		 = $order;
 		$this -> customer	 = $customer;
-		$this -> payment	 = $method;
+		$this -> payment	 = new CreditCard();
+		$this -> reference 	 = $reference;
 	}
 
 	/**
@@ -65,21 +65,9 @@ class Setup implements Operation
 	 */
 	public function getCustomFields(Gateway $gateway = null)
 	{
-		// Override merchant urls - append order data to it
-		if (!is_null($gateway)) {
-			$urls = $gateway -> getMerchantUrls(['_merchantRef' => $this -> order -> getId()]);
-
-			$data = [
-				'gateway.successurl' => $urls['success'],
-				'gateway.errorurl' => $urls['error']
-			];
-		}
-
-		if ($this -> payment instanceof InternetBank) {
-			$data['bank_type'] = $this -> payment -> getBank();
-		}
-
-		return $data;
+		return [
+			'card.reference' => $this -> reference
+		];
 	}
 
 	/**
@@ -98,17 +86,7 @@ class Setup implements Operation
 	 */
 	public function getTemplate()
 	{
-		if ($this -> payment instanceof CreditCard) {
-			return $this -> customer -> isAnonymous() ? 'payment_create_cc_anon' : 'payment_create_cc';
-		}
-
-		if ($this -> payment instanceof InternetBank) {
-			return 'payment_create_ib';
-		}
-
-		if ($this -> payment instanceof PayPal) {
-			return 'payment_create_paypal';
-		}
+		return $this -> order -> getTotal() > 0 ? 'recurring_setup_pay' : 'recurring_setup';
 	}
 
 	/**
@@ -117,6 +95,6 @@ class Setup implements Operation
 	 */
 	public function parseResponse($response, $mode = '')
 	{
-		return new SetupResponse($this -> payment, $mode, $response);
+		return new RecurringSetupResponse($response);
 	}
 }

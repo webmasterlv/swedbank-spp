@@ -1,0 +1,18 @@
+<Request version="2">
+	<Authentication>
+		<client>%gateway.client%</client>
+		<password>%gateway.password%</password>
+	</Authentication>
+	<Transaction>
+		<ContAuthTxn type="historic"/>
+		<TxnDetails>
+			<merchantreference>%order.reference%</merchantreference>
+			<amount currency="EUR">%order.total_base%</amount>
+			<capturemethod>cont_auth</capturemethod>
+		</TxnDetails>
+		<HistoricTxn>
+			<reference>%card.reference%</reference>
+			<method>auth</method>
+		</HistoricTxn>
+	</Transaction>
+</Request>
